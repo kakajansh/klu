@@ -14,15 +14,6 @@ class AwardsController extends Controller {
 
     public function show($courseid, $userid)
     {
-        // $ara = array("courseid" => $courseid, "userid" => $userid);
-        // echo $courseid;
-        // echo '<br>';
-        // echo $aa = \App\User::find($userid);
-        // echo '<br>';
-        // echo $aa->courses->where('id', (int)$courseid);
-        // echo '<br>';
-        // echo \App\User::find((int)$userid)->courses->where('id', (int)$courseid);
-        // echo '<br>';
         $user = \App\User::find((int)$userid);
         $course = \App\Course::find((int)$courseid);
         $template = $course->template;
@@ -41,47 +32,57 @@ class AwardsController extends Controller {
 
         //Use this page as template
         $pdf->useTemplate($tpl);
-        // set font
-        $pdf->SetFont('times', 'B', 20);
 
-        // $pdf->AddPage('P', 'A4');
-        // $pdf->Cell(0, 0, 'A4 PORTRAIT', 1, 1, 'C');
+        // set style for barcode
+        $style = array(
+            'border' => true,
+            'vpadding' => 'auto',
+            'hpadding' => 'auto',
+            'fgcolor' => array(0,0,0),
+            'bgcolor' => false, //array(255,255,255)
+            'module_width' => 1, // width of a single module in points
+            'module_height' => 1 // height of a single module in points
+        );
 
-        // $pdf->AddPage('L', 'A4');
-        $pdf->Cell(0, 0, 'A4 LANDSCAPE', 1, 1, 'C');
-        $pdf->Text(10, 140, $course->title);
-        $pdf->Text(10, 180, $user->ad . $user->soyad);
+        // QR CODE
+        $pdf->write2DBarcode('www.tcpdf.org', 'QRCODE,Q', 20, 155, 30, 30, $style, 'N');
+
+        // TITLE
+        $pdf->SetFont('helvetica', 'B', 30);
+        $pdf->setXY(50, 20);
+        $pdf->Cell(200, 10, $course->title, 1, 1, 'C');
+
+        // AD SOYAD
+        $pdf->SetFont('courier', 'B', 20);
+        $pdf->setXY($st->name_left, $st->name_top);
+        $pdf->Cell($st->name_width, $st->name_height, $user->ad . " " . $user->soyad, 1, 1, 'C');
+
+        $pdf->Output('hello_world.pdf');
+    }
+
+    public function multi($courseid)
+    {
+        $course = \App\Course::find($courseid);
+        $template = $course->template;
+        $st = json_decode($template->settings);
+
+        $pdf = new \FPDI("L", "mm", "A4");
+        $pdf->SetPrintHeader(false);
+        $pdf->SetPrintFooter(false);
+
+        foreach ($course->users as $user) {
+            $pdf->AddPage();
+
+            $pagecount = $pdf->setSourceFile($template->path);
+            $tpl = $pdf->importPage(1);
+            $pdf->useTemplate($tpl);
+
+            // AD SOYAD
+            $pdf->SetFont('courier', 'B', 20);
+            $pdf->setXY($st->name_left, $st->name_top);
+            $pdf->Cell($st->name_width, $st->name_height, $user->ad . " " . $user->soyad, 1, 1, 'C');
+        }
+
         $pdf->Output('hello_world.pdf');
     }
 }
-
-
-//         $award = \App\Course::find(1);
-//         $template = $award->template;
-//         // echo $template->settings;
-//         $settings = json_decode($template->settings);
-
-//         $pdf = new \FPDI("L", "mm", "A4");
-//         $pdf->SetPrintHeader(false);
-//         $pdf->SetPrintFooter(false);
-//         $pdf->AddPage();
-
-//         //Set the source PDF file
-//         $pagecount = $pdf->setSourceFile($template->path);
-
-//         //Import the first page of the file
-//         $tpl = $pdf->importPage(1);
-
-//         //Use this page as template
-//         $pdf->useTemplate($tpl);
-
-//         // set font
-// $pdf->SetFont('times', 'B', 20);
-
-// // $pdf->AddPage('P', 'A4');
-// // $pdf->Cell(0, 0, 'A4 PORTRAIT', 1, 1, 'C');
-
-// // $pdf->AddPage('L', 'A4');
-//         $pdf->Cell(0, 0, 'A4 LANDSCAPE', 1, 1, 'C');
-//         $pdf->Text(10, 140, $award->title);
-//         $pdf->Output('hello_world.pdf');

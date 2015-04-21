@@ -16,4 +16,6 @@
 @endforeach
 </ul>
 
+<a href="{{ url('awards/multi', $course->id) }}">Belgeleri bastir</a>
+
 @stop

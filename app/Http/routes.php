@@ -30,6 +30,7 @@ Route::get('users/{id}', 'UsersController@show');
 Route::get('profile', 'UsersController@profile');
 
 Route::get('awards/show/{courseid}/{userid}', 'AwardsController@show');
+Route::get('awards/multi/{courseid}', 'AwardsController@multi');
 
 // ///////////
 

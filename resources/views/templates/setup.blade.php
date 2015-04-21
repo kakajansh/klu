@@ -98,8 +98,8 @@ canvas.add(rect);
 
 rect.on('modified', function() {
     console.log(rect)
-    $('input[name=name_left]').val(Math.round(rect.left / 20));
-    $('input[name=name_top]').val(Math.round(rect.top / 20));
+    $('input[name=name_left]').val(Math.round(rect.left / 2));
+    $('input[name=name_top]').val(Math.round(rect.top / 2));
     $('input[name=name_width]').val(Math.round(rect.scaleX));
     $('input[name=name_height]').val(Math.round(rect.scaleY));
     $('input[name=name_font_family]').val("Arial");
