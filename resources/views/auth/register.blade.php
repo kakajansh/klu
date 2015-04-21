@@ -22,9 +22,23 @@
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 
 						<div class="form-group">
-							<label class="col-md-4 control-label">Name</label>
+							<label class="col-md-4 control-label">Ad:</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="name" value="{{ old('name') }}">
+								<input type="text" class="form-control" name="ad" value="{{ old('ad') }}">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-4 control-label">Soyad:</label>
+							<div class="col-md-6">
+								<input type="text" class="form-control" name="soyad" value="{{ old('soyad') }}">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-4 control-label">Ogrno:</label>
+							<div class="col-md-6">
+								<input type="text" class="form-control" name="ogrno" value="{{ old('ogrno') }}">
 							</div>
 						</div>
 

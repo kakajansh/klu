@@ -7,6 +7,8 @@
 	<title>Laravel</title>
 
 	<link href="{{ asset('/css/app.css') }}" rel="stylesheet">
+	<link href="{{ asset('/semantic/dist/semantic.css') }}" rel="stylesheet">
+	<link href="{{ asset('/css/style.css') }}" rel="stylesheet">
 
 	<!-- Fonts -->
 	<link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
@@ -19,44 +21,58 @@
 	<![endif]-->
 </head>
 <body>
-	<nav class="navbar navbar-default">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-					<span class="sr-only">Toggle Navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="#">Laravel</a>
-			</div>
 
-			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-				<ul class="nav navbar-nav">
-					<li><a href="{{ url('/') }}">Home</a></li>
-				</ul>
+<div class="ui main header"></div>
+<div class="ui icon center aligned submain header">
+    <i class="circular bug inverted red icon"></i>KLUCER
+    <div class="sub header">KLU Certificate Manager</div>
+</div>
+<div class="ui page grid">
+    <div class="column"><br>
+    <div class="ui labeled icon fluid five item menu">
 
-				<ul class="nav navbar-nav navbar-right">
-					@if (Auth::guest())
-						<li><a href="{{ url('/auth/login') }}">Login</a></li>
-						<li><a href="{{ url('/auth/register') }}">Register</a></li>
-					@else
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="{{ url('/auth/logout') }}">Logout</a></li>
-							</ul>
-						</li>
-					@endif
-				</ul>
-			</div>
-		</div>
-	</nav>
+        <a href="{{ url('/') }}" class="red {{ Request::is( '/') ? 'active' : '' }} item">
+            <i class="home icon"></i>Anasayfa
+        </a>
+        <a href="{{ url('templates') }}" class="green {{ Request::is( 'templates') ? 'active' : '' }} item">
+            <i class="map icon"></i>Sertifikalar
+        </a>
+        <a href="{{ url('courses') }}" class="teal {{ Request::is( 'courses') ? 'active' : '' }} item">
+            <i class="star icon"></i>Kurslar
+        </a>
+        <a href="{{ url('users') }}" class="green item">
+            <i class="picture icon"></i>Ogrenciler
+        </a>
+        @if (\Auth::user())
+        <a href="{{ url('profile') }}" class="green item">
+            <i class="user icon"></i>{{ \Auth::user()->ad }}
+        </a>
+        @else
+        <a href="{{ url('auth/login') }}" class="green item">
+            <i class="user icon"></i>Profilim
+        </a>
+        @endif
 
-	@yield('content')
+    </div>
 
-	<!-- Scripts -->
-	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+
+	@yield('submenu')
+
+    <div class="ui segment">
+		@yield('content')
+	</div>
+	</div>
+</div>
+
+<!-- Scripts -->
+<script src="{{ asset('jquery.min.js') }}"></script>
+<script src="{{ asset('semantic/dist/semantic.js') }}"></script>
+<script src="{{ asset('fabric/dist/fabric.js') }}"></script>
+<!-- <script src="{{ asset('pdf.js') }}"></script> -->
+<!-- // <script src="{{ asset('pdf.worker.js') }}"></script> -->
+
+@yield('scripts')
+
 </body>
 </html>
