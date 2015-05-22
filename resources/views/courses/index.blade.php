@@ -11,9 +11,21 @@
 
     <div class="ui selection list">
     @foreach($courses as $course)
-        <a href="{{ url('courses', $course->id) }}" class="item">
+        <? $sayi =  $course->users->count(); ?>
+        <a href="{{ url('courses', $course->slug) }}" class="item">
             <div class="content">
-                <div class="header">{{ $course->title }}</div>
+                <div class="header">{{ $course->title }}
+                    <div class="right floated header">
+                        <div class="ui label">
+                            @if ($sayi == 1 || $sayi == 0)
+                            <i class="user icon"></i>
+                            @elseif ($sayi > 1)
+                            <i class="group icon"></i>
+                            @endif
+                            {{ $sayi }}
+                        </div>
+                    </div>
+                </div>
             </div>
         </a>
     @endforeach

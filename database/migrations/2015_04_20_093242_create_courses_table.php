@@ -16,6 +16,7 @@ class CreateCoursesTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('title');
+			$table->string('slug');
 			$table->integer('price');
 			$table->integer('template_id')->unsigned();
 			$table->timestamps();

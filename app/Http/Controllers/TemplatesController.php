@@ -13,6 +13,11 @@ use Session;
 
 class TemplatesController extends Controller {
 
+    public function __construct()
+    {
+        $this->loadAndAuthorizeResource();
+    }
+
     /**
      * Display a listing of the resource.
      *

@@ -52,7 +52,7 @@ return [
 	|
 	*/
 
-	'locale' => 'en',
+	'locale' => 'tr',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -146,6 +146,10 @@ return [
 		'App\Providers\EventServiceProvider',
 		'App\Providers\RouteServiceProvider',
 
+		'Maatwebsite\Excel\ExcelServiceProvider',
+		'Efficiently\AuthorityController\AuthorityControllerServiceProvider',
+		'Cviebrock\EloquentSluggable\SluggableServiceProvider',
+		// 'Cviebrock\EloquentSluggable\SluggableRoutingServiceProvider',
 	],
 
 	/*
@@ -195,6 +199,9 @@ return [
 		'View'      => 'Illuminate\Support\Facades\View',
 		'Form'		=> 'Illuminate\Html\FormFacade',
 		'Html'		=> 'Illuminate\Html\HtmlFacade',
+		'Excel'     => 'Maatwebsite\Excel\Facades\Excel',
+		'Params'    => 'Efficiently\AuthorityController\Facades\Params',
+		'Authority' => 'Efficiently\AuthorityController\Facades\Authority',
 		// 'Fpdf'      => 'Anouar\Fpdf\Fpdf',
 		// 'Fpdi' 		=> 'fpdi\FPDI',
 	],

@@ -1,62 +1,53 @@
-@extends('app')
+@extends('login')
 
 @section('content')
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
-			<div class="panel panel-default">
-				<div class="panel-heading">Login</div>
-				<div class="panel-body">
-					@if (count($errors) > 0)
-						<div class="alert alert-danger">
-							<strong>Whoops!</strong> There were some problems with your input.<br><br>
-							<ul>
-								@foreach ($errors->all() as $error)
-									<li>{{ $error }}</li>
-								@endforeach
-							</ul>
-						</div>
-					@endif
 
-					<form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/login') }}">
-						<input type="hidden" name="_token" value="{{ csrf_token() }}">
+<h1>Klu Certificate Manage</h1>
+<p>Lorem ipsum dolor sit amet, consectetur <b>adipisicing elit.</b> Dolorum, molestias!</p>
+<p>Lorem ipsum dolor sit amet.</p>
 
-						<div class="form-group">
-							<label class="col-md-4 control-label">E-Mail Address</label>
-							<div class="col-md-6">
-								<input type="email" class="form-control" name="email" value="{{ old('email') }}">
-							</div>
-						</div>
+<!-- @if (count($errors) > 0) -->
+	<div class="ui error message">
 
-						<div class="form-group">
-							<label class="col-md-4 control-label">Password</label>
-							<div class="col-md-6">
-								<input type="password" class="form-control" name="password">
-							</div>
-						</div>
-
-						<div class="form-group">
-							<div class="col-md-6 col-md-offset-4">
-								<div class="checkbox">
-									<label>
-										<input type="checkbox" name="remember"> Remember Me
-									</label>
-								</div>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<div class="col-md-6 col-md-offset-4">
-								<button type="submit" class="btn btn-primary">Login</button>
-
-								<a class="btn btn-link" href="{{ url('/auth/register') }}">Register new user</a>
-								<a class="btn btn-link" href="{{ url('/password/email') }}">Forgot Your Password?</a>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
+		<div class="ui header">There were some problems with your input.</div>
+		<ul>
+			@foreach ($errors->all() as $error)
+				<li>{{ $error }}</li>
+			@endforeach
+		</ul>
 	</div>
-</div>
+<!-- @endif -->
+
+<form role="form" method="POST" action="{{ url('/auth/login') }}" class="klu-form">
+    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+    <div class="klu-form-row">
+        <input id="email" name="email" placeholder="Email" value="{{ old('email') }}" class="klu-form-control" type="text">
+        <label for="email" class="klu-form-label">Kullanıcı adı</label>
+    </div>
+    <div class="klu-form-row">
+        <input id="password" name="password" placeholder="Şifre" value="" required="" class="klu-form-control" type="password">
+        <label for="password" class="klu-form-label">Şifre</label>
+    </div>
+    <!-- <div class="klu-form-row">
+        <!-- <input id="remember" name="remember" class="klu-form-control" type="checkbox"> Beni hatirla -->
+        <!-- <label for="remember" class="klu-form-label">Beni hatirla</label> -->
+    <!-- </div> -->
+    <div class="klu-form-row">
+        <!-- <div class="ui hidden divider"></div> -->
+<!--                         <div class="ui error message">
+            <div class="header">We noticed some issues</div>
+        </div> -->
+        <div class="ui checkbox">
+            <input id="unique-id" type="checkbox">
+            <label for="unique-id">Beni hatirla</label>
+            <div class="ui hidden divider"></div>
+			<a class="btn btn-link" href="{{ url('/auth/register') }}">Register new user</a>
+			<a class="btn btn-link" href="{{ url('/password/email') }}">Forgot Your Password?</a>
+        </div>
+    </div>
+    <div class="klu-form-actions">
+        <button type="submit" class="klu-button">Giriş yap</button>
+    </div>
+</form>
+
 @endsection

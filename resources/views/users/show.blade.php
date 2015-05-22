@@ -7,11 +7,20 @@
     <p>Katildigi kurslar: </p>
 
     <ul>
-    @foreach($user->courses as $course)
-        <li>{{ $course->title }}
-            &nbsp;&nbsp;&sdot;&nbsp;&nbsp;
-            <a href="{{ url('awards/show', array($course->id, $user->id)) }}">Belgeni al</a>
-        </li>
-    @endforeach
+    {{-- {{ $user->courses }} --}}
+    @if (count($user->courses) > 0)
+        @foreach($user->courses as $course)
+            <li>{{ $course->title }}
+                &nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+                <a href="{{ url('awards/show', array($course->slug, $user->ogrno)) }}">Belgeni al</a>
+            </li>
+        @endforeach
+    @else
+        No course
+    @endif
     </ul>
+
+    @if ($user->id == Auth::user()->id)
+        <a href="/auth/logout">Logout</a>
+    @endif
 @stop

@@ -1,10 +1,18 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\SluggableInterface;
+use Cviebrock\EloquentSluggable\SluggableTrait;
 
-class Course extends Model {
+class Course extends Model implements SluggableInterface
+{
+    use SluggableTrait;
 
-	//
+    protected $sluggable = array(
+        'build_from' => 'title',
+        'save_to'    => 'slug',
+    );
+
     protected $fillable = [
         'title',
         'price',
@@ -18,7 +26,7 @@ class Course extends Model {
 
     public function users()
     {
-        return $this->belongsToMany('\App\User', 'awards', 'courseid', 'userid');
+        return $this->belongsToMany('\App\User', 'awards', 'course_id', 'user_id');
     }
 
 }

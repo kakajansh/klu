@@ -6,7 +6,7 @@
     <hr>
 
     <div class="ui form">
-    {!! Form::open(['action' => 'CoursesController@store']) !!}
+    {!! Form::open(['action' => 'CoursesController@store', 'method' => 'POST']) !!}
         <div class="field">
         {!! Form::label('title', 'Title:') !!}
         {!! Form::text('title', null, ['class' => '']) !!}
@@ -21,6 +21,11 @@
         {!! Form::label('template_id', 'Template id:') !!}
         {!! Form::select('template_id', $templates) !!}
         </div>
+
+        {{-- <div class="field"> --}}
+        {{-- {!! Form::label('file', 'File:') !!} --}}
+        {{-- {!! Form::file('file', array('accept'=>'.xls, .xlsx, .cvs', 'class'=>'files')) !!} --}}
+        {{-- </div> --}}
 
         <!-- <div class="field"> -->
         <!-- {!! Form::label('body', 'Body:') !!} -->

@@ -1,6 +1,5 @@
 @extends('app')
 
 @section('content')
-<h1>Hello world</h1>
-
+<img src="/img/belge.jpg" alt="" width="100%">
 @stop

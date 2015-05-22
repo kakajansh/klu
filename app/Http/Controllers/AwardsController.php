@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class AwardsController extends Controller {
 
+    public function __construct()
+    {
+        $this->loadAndAuthorizeResource();
+    }
+
     public function index()
     {
         return view('awards/index');
@@ -14,8 +19,8 @@ class AwardsController extends Controller {
 
     public function show($courseid, $userid)
     {
-        $user = \App\User::find((int)$userid);
-        $course = \App\Course::find((int)$courseid);
+        $user = \App\User::where(['ogrno' => $userid])->first();
+        $course = \App\Course::findBySlug($courseid);
         $template = $course->template;
         $st = json_decode($template->settings);
 

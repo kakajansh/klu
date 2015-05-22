@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class UsersController extends Controller {
 
+    public function __construct()
+    {
+        $this->loadAndAuthorizeResource();
+    }
+
     public function main()
     {
         return view('bassahypa');

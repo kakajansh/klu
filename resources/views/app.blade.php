@@ -6,12 +6,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Laravel</title>
 
-	<link href="{{ asset('/css/app.css') }}" rel="stylesheet">
-	<link href="{{ asset('/semantic/dist/semantic.css') }}" rel="stylesheet">
+	<link href="{{ asset('/semantic/semantic.min.css') }}" rel="stylesheet">
 	<link href="{{ asset('/css/style.css') }}" rel="stylesheet">
-
-	<!-- Fonts -->
-	<link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -29,8 +25,10 @@
 </div>
 <div class="ui page grid">
     <div class="column"><br>
-    <div class="ui labeled icon fluid five item menu">
 
+    @if (\Auth::user()->hasRole('admin'))
+
+    <div class="ui labeled icon fluid five item menu">
         <a href="{{ url('/') }}" class="red {{ Request::is( '/') ? 'active' : '' }} item">
             <i class="home icon"></i>Anasayfa
         </a>
@@ -43,21 +41,13 @@
         <a href="{{ url('users') }}" class="green item">
             <i class="picture icon"></i>Ogrenciler
         </a>
-        @if (\Auth::user())
         <a href="{{ url('profile') }}" class="green item">
             <i class="user icon"></i>{{ \Auth::user()->ad }}
         </a>
-        @else
-        <a href="{{ url('auth/login') }}" class="green item">
-            <i class="user icon"></i>Profilim
-        </a>
-        @endif
-
     </div>
 
-
-
-	@yield('submenu')
+    @yield('submenu')
+    @endif
 
     <div class="ui segment">
 		@yield('content')
@@ -66,13 +56,12 @@
 </div>
 
 <!-- Scripts -->
+@if (\Auth::user()->hasRole('admin'))
 <script src="{{ asset('jquery.min.js') }}"></script>
 <script src="{{ asset('semantic/dist/semantic.js') }}"></script>
 <script src="{{ asset('fabric/dist/fabric.js') }}"></script>
-<!-- <script src="{{ asset('pdf.js') }}"></script> -->
-<!-- // <script src="{{ asset('pdf.worker.js') }}"></script> -->
-
 @yield('scripts')
+@endif
 
 </body>
 </html>
