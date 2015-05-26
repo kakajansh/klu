@@ -26,7 +26,7 @@
     </div>
     <div class="field">
         {{-- <label for="password">ŞİFRE</label> --}}
-        <input id="password" name="password" placeholder="Şifre" value="" required="" type="password">
+        <input id="password" name="password" placeholder="Şifre" value="" type="password">
     </div>
     </div>
     <div class="two fields">

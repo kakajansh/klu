@@ -19,7 +19,8 @@
 <div class="ui page grid">
     <div class="column"><br>
 
-    @if (Authority::can('multi', 'App\Awards'))
+    <?php $user = \Auth::user(); ?>
+    @if ($user && $user->hasRole('admin'))
 
     <div class="ui labeled icon fluid four item menu">
         <a href="{{ url('templates') }}" class="orange {{ Request::is( 'templates') ? 'active' : '' }} item">
@@ -46,7 +47,7 @@
 </div>
 
 <!-- Scripts -->
-@if (Authority::can('multi', 'App\Awards'))
+@if ($user && $user->hasRole('admin'))
 <script src="{{ asset('jquery.min.js') }}"></script>
 <script src="{{ asset('semantic/dist/semantic.js') }}"></script>
 <script src="{{ asset('fabric/dist/fabric.js') }}"></script>

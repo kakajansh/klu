@@ -5,6 +5,9 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
+use App\User;
+use App\Award;
+
 class AwardsController extends Controller {
 
     public function __construct()
@@ -66,6 +69,35 @@ class AwardsController extends Controller {
         $pdf->SetFont('courier', 'B', 20);
         $pdf->setXY($st->name_left, $st->name_top);
         $pdf->Cell($st->name_width, $st->name_height, $user->ad . " " . $user->soyad, 1, 1, 'C');
+
+        $pdf->Output('hello_world.pdf');
+    }
+
+    public function hepsi($userid)
+    {
+        $user = User::findOrFail($userid);
+        // $template = $course->template;
+        // $st = json_decode($template->settings);
+
+        $pdf = new \FPDI("L", "mm", "A4");
+        $pdf->SetPrintHeader(false);
+        $pdf->SetPrintFooter(false);
+
+        foreach ($user->courses as $course) {
+            $template = $course->template;
+            $st = json_decode($template->settings);
+
+            $pdf->AddPage();
+
+            $pagecount = $pdf->setSourceFile($template->path);
+            $tpl = $pdf->importPage(1);
+            $pdf->useTemplate($tpl);
+
+            // AD SOYAD
+            $pdf->SetFont('courier', 'B', 20);
+            $pdf->setXY($st->name_left, $st->name_top);
+            $pdf->Cell($st->name_width, $st->name_height, $user->ad . " " . $user->soyad, 1, 1, 'C');
+        }
 
         $pdf->Output('hello_world.pdf');
     }

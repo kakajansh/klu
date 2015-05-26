@@ -54,7 +54,7 @@ class CoursesController extends Controller {
 	public function store()
 	{
 		$input = Request::all();
-		$input['template_id'] = \App\Template::find(10)->id;
+		$input['template_id'] = \App\Template::find(7)->id;
 		Course::create($input);
 		return redirect('courses');
 	}
@@ -64,7 +64,7 @@ class CoursesController extends Controller {
 		$file = array('file' => Input::file('file'));
 		$courseid = Request::input('courseid');
 
-		echo $courseid;
+		// echo $courseid;
 		$rules = array('file' => 'required');
 		$validator = Validator::make($file, $rules);
 
@@ -82,15 +82,12 @@ class CoursesController extends Controller {
 				$file = $destinationPath . '/' . $fileName;
 
 				Excel::load($file, function($reader) {
-					// $results = $reader->get();
-					// echo $results;
-					//
+					// Excel dosyasinin her satiri
 					$reader->each(function($sheet) {
-						$userId;
-						$u = User::where('ogrno', $sheet->no)->first();
+						$usr = User::where('ogrno', $sheet->no)->first();
 
-						if (is_null($u)) {
-							echo "HI";
+						// Boyle bir kullanici yoksa ekle, yoksa gec
+						if (is_null($usr)) {
 							$user = User::firstOrCreate([
 								'ad' => $sheet->ad,
 								'soyad' => $sheet->soyad,
@@ -98,16 +95,15 @@ class CoursesController extends Controller {
 								'email' => $sheet->email,
 								'password' => \Hash::make($sheet->tc)
 							]);
-							$userId = $user->id;
-						}
-						else {
-							$userId = $u->id;
+							$usr = $user;
 						}
 
-						Award::firstOrCreate([
-							'user_id' => $userId,
-							'course_id' => Request::input('courseid')
-						]);
+						$courseId = Request::input('courseid');
+
+						// Kullanici bu kursa kayitli degilse
+						if (! \DB::select('select * from course_user where user_id='.$usr->id.' and course_id='.$courseId)) {
+							$usr->courses()->attach($courseId);
+						}
 					});
 				});
 				return Redirect::to('courses');

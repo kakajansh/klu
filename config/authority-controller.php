@@ -19,10 +19,8 @@ return [
         if ($user->hasRole('admin')) {
             $authority->allow('manage', 'all');
         } else {
-            // $authority->allow('read', 'all');
-            $authority->allow('show', 'App\Award');
-            $authority->allow('check', 'App\Award');
-            $authority->allow('profile', 'App\User');
+            $authority->allow(['show', 'hepsi', 'check'], 'App\Award');
+            $authority->allow(['profile', 'edit', 'update'], 'App\User');
         }
         //
         // The first argument to `allow` is the action you are giving the user

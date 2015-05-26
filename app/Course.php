@@ -24,9 +24,12 @@ class Course extends Model implements SluggableInterface
         return $this->belongsTo('App\Template', 'template_id');
     }
 
+    // public function users()
+    // {
+    //     return $this->belongsToMany('\App\User', 'awards', 'course_id', 'user_id');
+    // }
     public function users()
     {
-        return $this->belongsToMany('\App\User', 'awards', 'course_id', 'user_id');
+        return $this->belongsToMany('\App\User')->withTimestamps();
     }
-
 }

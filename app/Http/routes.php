@@ -31,9 +31,12 @@ Route::group(['middleware' => 'auth'], function()
     Route::post('courses/storeUsers', 'CoursesController@storeUsers');
 
     Route::get('users', 'UsersController@index');
+    Route::get('users/edit', 'UsersController@edit');
     Route::get('users/{id}', 'UsersController@show');
+    Route::post('users/update', 'UsersController@update');
     Route::get('/', 'UsersController@profile');
 
+    Route::get('awards/hepsi/{userid}', 'AwardsController@hepsi');
     Route::get('awards/show/{courseid}/{userid}', 'AwardsController@show');
     Route::get('awards/multi/{courseid}', 'AwardsController@multi');
 

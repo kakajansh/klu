@@ -12,7 +12,7 @@ class UserTableSeeder extends Seeder {
 
         User::create([
             'ad'        => 'Administrator',
-            'ogrno'     => '111'
+            'ogrno'     => 'admin',
             'soyad'     => 'Abi',
             'email'     => 'admin@klu.edu.tr',
             'password'  => Hash::make('admin'),
