@@ -6,47 +6,39 @@
 <p>Lorem ipsum dolor sit amet, consectetur <b>adipisicing elit.</b> Dolorum, molestias!</p>
 <p>Lorem ipsum dolor sit amet.</p>
 
-<!-- @if (count($errors) > 0) -->
-	<div class="ui error message">
+@if (count($errors) > 0)
+<div class="ui error message">
+	<div class="ui header">There were some problems with your input.</div>
+	<ul>
+		@foreach ($errors->all() as $error)
+			<li>{{ $error }}</li>
+		@endforeach
+	</ul>
+</div>
+@endif
 
-		<div class="ui header">There were some problems with your input.</div>
-		<ul>
-			@foreach ($errors->all() as $error)
-				<li>{{ $error }}</li>
-			@endforeach
-		</ul>
-	</div>
-<!-- @endif -->
-
-<form role="form" method="POST" action="{{ url('/auth/login') }}" class="klu-form">
+<form role="form" method="POST" action="{{ url('/auth/login') }}" class="ui form">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-    <div class="klu-form-row">
-        <input id="email" name="email" placeholder="Email" value="{{ old('email') }}" class="klu-form-control" type="text">
-        <label for="email" class="klu-form-label">Kullanıcı adı</label>
+    <div class="two fields">
+    <div class="field">
+        {{-- <label for="ogrno">ÖĞRENCİ NO</label> --}}
+        <input id="ogrno" name="ogrno" placeholder="Ogrenci no" value="{{ old('ogrno') }}" type="text">
     </div>
-    <div class="klu-form-row">
-        <input id="password" name="password" placeholder="Şifre" value="" required="" class="klu-form-control" type="password">
-        <label for="password" class="klu-form-label">Şifre</label>
+    <div class="field">
+        {{-- <label for="password">ŞİFRE</label> --}}
+        <input id="password" name="password" placeholder="Şifre" value="" required="" type="password">
     </div>
-    <!-- <div class="klu-form-row">
-        <!-- <input id="remember" name="remember" class="klu-form-control" type="checkbox"> Beni hatirla -->
-        <!-- <label for="remember" class="klu-form-label">Beni hatirla</label> -->
-    <!-- </div> -->
-    <div class="klu-form-row">
-        <!-- <div class="ui hidden divider"></div> -->
-<!--                         <div class="ui error message">
-            <div class="header">We noticed some issues</div>
-        </div> -->
-        <div class="ui checkbox">
-            <input id="unique-id" type="checkbox">
-            <label for="unique-id">Beni hatirla</label>
-            <div class="ui hidden divider"></div>
-			<a class="btn btn-link" href="{{ url('/auth/register') }}">Register new user</a>
-			<a class="btn btn-link" href="{{ url('/password/email') }}">Forgot Your Password?</a>
+    </div>
+    <div class="two fields">
+        <div class="field">
         </div>
-    </div>
-    <div class="klu-form-actions">
-        <button type="submit" class="klu-button">Giriş yap</button>
+        <div class="inline field">
+            <div class="ui checkbox">
+                <input id="unique-id" type="checkbox">
+                <label for="unique-id">Beni hatırla</label>
+            </div>
+            <input type="submit" class="ui right floated teal button" value="Giriş yap">
+        </div>
     </div>
 </form>
 

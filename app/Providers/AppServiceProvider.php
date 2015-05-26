@@ -11,7 +11,9 @@ class AppServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		//
+		view()->composer('login', function($view) {
+			$view->with('courses', \App\Course::orderBy('created_at', 'desc')->limit(3)->get());
+		});
 	}
 
 	/**

@@ -13,6 +13,7 @@
 
 Route::group(['middleware' => 'auth'], function()
 {
+    Route::get('/', 'AppController@anasayfa');
 
     Route::get('templates', 'TemplatesController@index');
     Route::get('templates/create', 'TemplatesController@create');
@@ -29,16 +30,17 @@ Route::group(['middleware' => 'auth'], function()
     Route::get('courses/upload/{id}', 'CoursesController@upload');
     Route::post('courses/storeUsers', 'CoursesController@storeUsers');
 
-    Route::get('/', 'UsersController@main');
     Route::get('users', 'UsersController@index');
     Route::get('users/{id}', 'UsersController@show');
-    Route::get('profile', 'UsersController@profile');
+    Route::get('/', 'UsersController@profile');
 
     Route::get('awards/show/{courseid}/{userid}', 'AwardsController@show');
     Route::get('awards/multi/{courseid}', 'AwardsController@multi');
 
 });
 // ///////////
+
+Route::get('check', 'AwardsController@check');
 
 Route::get('fabric', 'WelcomeController@index');
 

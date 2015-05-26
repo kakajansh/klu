@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Laravel</title>
 
-    <link href="{{ asset('/css/login.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('/css/login.css') }}" rel="stylesheet"> --}}
     <link href="{{ asset('/semantic/semantic.min.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('/css/form.css') }}" rel="stylesheet"> --}}
+
     <!-- <link href="{{ asset('/css/style.css') }}" rel="stylesheet"> -->
 
     <!-- Fonts -->
@@ -42,36 +44,20 @@
             <h2 class="ui center aligned inverted header">Kurslarimiz</h2>
             <div class="ui divider"></div>
             <div class="ui three column grid">
+            <?php $sayi = 1; ?>
+            @foreach($courses as $course)
               <div class="column">
                 <div class="ui fluid card">
                   <div class="image">
-                    <img src="/img/1.jpg" style="height: 200px">
+                    <img src="/img/{{ $sayi }}.jpg" style="height: 200px">
                   </div>
                   <div class="content">
-                    <a class="header">Kurs #1</a>
+                    <a href="{{ url('courses', $course->slug) }}" class="header">{{ $course->title }}</a>
                   </div>
                 </div>
               </div>
-              <div class="column">
-                <div class="ui fluid card">
-                  <div class="image">
-                    <img src="/img/2.jpg" style="height: 200px">
-                  </div>
-                  <div class="content">
-                    <a class="header">Kurs #2</a>
-                  </div>
-                </div>
-              </div>
-              <div class="column">
-                <div class="ui fluid card">
-                  <div class="image">
-                    <img src="/img/3.jpg" style="height: 200px">
-                  </div>
-                  <div class="content">
-                    <a class="header">Kurs #3</a>
-                  </div>
-                </div>
-              </div>
+            <?php $sayi++; ?>
+            @endforeach
             </div>
         </div>
     </div>
@@ -91,7 +77,7 @@
 
 
 <script>
-$('.ui.checkbox').checkbox();
+// $('.ui.checkbox').checkbox();
 </script>
 
 <!-- Scripts -->

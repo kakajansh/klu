@@ -12,11 +12,6 @@ class UsersController extends Controller {
         $this->loadAndAuthorizeResource();
     }
 
-    public function main()
-    {
-        return view('bassahypa');
-    }
-
     public function index()
     {
         $users = \App\User::all();

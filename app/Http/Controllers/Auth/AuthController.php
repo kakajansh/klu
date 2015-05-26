@@ -1,5 +1,7 @@
 <?php namespace App\Http\Controllers\Auth;
 
+// use Request;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
@@ -19,8 +21,28 @@ class AuthController extends Controller {
 	*/
 
 	use AuthenticatesAndRegistersUsers;
+	protected $redirectTo = '/';
+	protected $redirectAfterLogout = '/auth/login';
 
-	protected $redirectTo = '/courses';
+	public function postLogin(Request $request)
+	{
+		$this->validate($request, [
+			'ogrno' => 'required', 'password' => 'required',
+		]);
+
+		$credentials = $request->only('ogrno', 'password');
+
+		if ($this->auth->attempt($credentials, $request->has('remember')))
+		{
+			return redirect()->intended($this->redirectTo);
+		}
+
+		return redirect($this->loginPath())
+					->withInput($request->only('ogrno', 'remember'))
+					->withErrors([
+						'ogrno' => $this->getFailedLoginMessage(),
+					]);
+	}
 
 	/**
 	 * Create a new authentication controller instance.

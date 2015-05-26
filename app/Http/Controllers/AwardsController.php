@@ -17,6 +17,11 @@ class AwardsController extends Controller {
         return view('awards/index');
     }
 
+    public function check()
+    {
+        return view('app/check');
+    }
+
     public function show($courseid, $userid)
     {
         $user = \App\User::where(['ogrno' => $userid])->first();
