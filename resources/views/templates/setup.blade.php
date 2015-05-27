@@ -1,22 +1,36 @@
 @extends('app')
 
-@section('submenu')
-<div class="ui fluid three item menu">
+{{-- GEREK VARMI ??? --}}
+{{-- @section('submenu') --}}
+{{-- <div class="ui fluid three item menu">
   <a class="item">Hepsini Listele</a>
   <a class="item">Yenisini Ekle</a>
   <a class="item">Sil</a>
-</div>
-@stop
+</div> --}}
+{{-- @stop --}}
 
 @section('content')
 <h1>Awards sayfasi</h1>
+
+<div class="ui small horizontal divided list" style="background-color:#E6E6E6">
+  <div class="item">
+    <div class="content" >
+      <p class="header" style="color:red">name</p>
+    </div>
+  </div>
+  <div class="item">
+    <div class="content">
+      <p class="header" style="color:#0080FF">date</p>
+    </div>
+  </div>
+</div>
 
 <canvas id="c" width="580px" height="420px" style="border:1px solid red"></canvas>
 
 <div class="setup" style="background-color:#EAEAE1; padding: 20px">
     <form method="POST" action="{{ url('templates/save', $template->id) }}" class="ui form" style="font-size:10px">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        <h4 class="ui dividing header">Name:</h4>
+        <h4 class="ui dividing header">Settings:</h4>
         <div class="ui seven fields">
             <div class="field"></div>
             <div class="field"><label>Top</label></div>
@@ -27,27 +41,24 @@
             <div class="field"><label>Font size</label></div>
         </div>
         <div class="ui seven fields">
-            <div class="field">
-                <label>Name:</label>
-            </div>
-            <div class="field">
-                <input type="text" name="name_top">
-            </div>
-            <div class="field">
-                <input type="text" name="name_left">
-            </div>
-            <div class="field">
-                <input type="text" name="name_width">
-            </div>
-            <div class="field">
-                <input type="text" name="name_height">
-            </div>
-            <div class="field">
-                <input type="text" name="name_font_family">
-            </div>
-            <div class="field">
-                <input type="text" name="name_font_size">
-            </div>
+            {{-- */ $tmp = ""; /* --}}
+            @foreach ($template->isettings as $key => $value)
+                {{-- */ $name = ucfirst(substr($key, 0, 4)); /* --}}
+                @if ($tmp != $name)
+                <div class="field">
+                    <label>{{ $name }}:</label>
+                </div>
+                {{-- */ $tmp = $name; /* --}}
+                @endif
+                <div class="field">
+                    @if (property_exists($template->settings, $key))
+                        <input type="text" name="{{ $key }}" value="{{ $template->settings->{$key} }}">
+                    @else
+                        <input type="text" name="{{ $key }}" value="{{ $value }}">
+                    @endif
+                </div>
+            @endforeach
+
         </div>
         <input type="submit" class="ui submit button" value="Submit">
     </form>
@@ -56,55 +67,54 @@
 
 @section('scripts')
 <script type="text/javascript">
-    // var canvasEl = document.getElementById('c');
-    // var ctx = canvasEl.getContext('2d');
-    // ctx.fillStyle = 'red';
-    // ctx.fillRect(100, 100, 20, 20);
-    // // create a wrapper around native canvas element (with id="c")
-    // var canvas = new fabric.Canvas('c');
-
-    // // create a rectangle object
-    // var rect = new fabric.Rect({
-    //   left: 100,
-    //   top: 100,
-    //   fill: 'red',
-    //   width: 20,
-    //   height: 20
-    // });
-
-    // // "add" rectangle onto canvas
-    // canvas.add(rect);
-    //
-    //
     var canvas = new fabric.Canvas('c');
 
-fabric.Image.fromURL('/{{ $template->thumb }}', function(image) {
-    image.hasControls = false;
-    image.selectable = false;
-    image.scaleToWidth(canvas.width);
-    canvas.add(image);
-    image.sendToBack();
-});
+    // NAME
+    var rname = new fabric.Rect({
+      left: {{ $template->isettings['name_left'] }},
+      top: {{ $template->isettings['name_top'] }},
+      width: {{ $template->isettings['name_width'] }},
+      height: {{ $template->isettings['name_height'] }},
+      fill: 'red',
+    });
 
-// create a rectangle with angle=45
-var rect = new fabric.Rect({
-  left: 100,
-  top: 100,
-  fill: 'red',
-  width: 20,
-  height: 20,
-});
-canvas.add(rect);
+    canvas.add(rname);
 
-rect.on('modified', function() {
-    console.log(rect)
-    $('input[name=name_left]').val(Math.round(rect.left / 2));
-    $('input[name=name_top]').val(Math.round(rect.top / 2));
-    $('input[name=name_width]').val(Math.round(rect.scaleX));
-    $('input[name=name_height]').val(Math.round(rect.scaleY));
-    $('input[name=name_font_family]').val("Arial");
-    $('input[name=name_font_size]').val(24);
-})
+    rname.on('modified', function() {
+        $('input[name=name_left]').val(Math.round(rname.left / 2));
+        $('input[name=name_top]').val(Math.round(rname.top / 2));
+        $('input[name=name_width]').val(Math.round(rname.getWidth() / 2));
+        $('input[name=name_height]').val(Math.round(rname.getHeight() / 2));
+    });
+
+    // DATE
+    var rdate = new fabric.Rect({
+      left: {{ $template->isettings['date_left']}},
+      top: {{ $template->isettings['date_top']}},
+      width: {{ $template->isettings['date_width']}},
+      height: {{ $template->isettings['date_height']}},
+      fill: '#0080FF',
+    });
+
+    canvas.add(rdate);
+
+    rdate.on('modified', function() {
+        $('input[name=date_left]').val(Math.round(rdate.left / 2));
+        $('input[name=date_top]').val(Math.round(rdate.top / 2));
+        $('input[name=date_width]').val(Math.round(rdate.getWidth()));
+        $('input[name=date_height]').val(Math.round(rdate.getHeight()));
+    });
+
+    fabric.Image.fromURL('/{{ $template->thumb }}', function(image) {
+        image.hasControls = false;
+        image.selectable = false;
+        image.scaleToWidth(canvas.width);
+        canvas.add(image);
+        image.sendToBack();
+    });
+
+
+
     //
     // PDFJS.workerSrc = "pdf.worker.js";
     // PDFJS.getDocument('/denme.pdf').then(function(pdf) {
@@ -158,25 +168,5 @@ rect.on('modified', function() {
     //             canvas.setHeight(tcanvas.height)
     //             canvas.setWidth(tcanvas.width)
     //             canvas.add(imgInstance);
-
-
-    // var name = new fabric.Rect({
-    //     width: 300,
-    //     height: 300
-    // })
-    // canvas.add(name);
-    // name.on('modified', function() {
-    //     console.log(name)
-    //     ypos.value = name.left / 20;
-    //     xpos.value = name.top / 20;
-    // })
-
-    //         });
-    //     });
-    // });
-
-
-
-
 </script>
 @stop

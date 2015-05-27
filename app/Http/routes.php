@@ -21,10 +21,14 @@ Route::group(['middleware' => 'auth'], function()
     Route::get('templates/{id}', 'TemplatesController@show');
     Route::get('templates/setup/{id}', 'TemplatesController@setup');
     Route::post('templates/save/{id}', 'TemplatesController@save');
+    Route::delete('templates/{id}', 'TemplatesController@destroy');
 
     Route::get('courses', 'CoursesController@index');
     Route::get('courses/create', 'CoursesController@create');
     Route::post('courses', 'CoursesController@store');
+    Route::delete('courses/{id}', 'CoursesController@destroy');
+    Route::get('courses/edit/{id}', 'CoursesController@edit');
+    Route::patch('courses/update/{id}', 'CoursesController@update');
     Route::get('courses/{slug}', 'CoursesController@show');
     Route::get('courses/attend/{id}', 'CoursesController@attend');
     Route::get('courses/upload/{id}', 'CoursesController@upload');
@@ -32,18 +36,19 @@ Route::group(['middleware' => 'auth'], function()
 
     Route::get('users', 'UsersController@index');
     Route::get('users/edit', 'UsersController@edit');
+    Route::delete('users/{id}', 'UsersController@destroy');
     Route::get('users/{id}', 'UsersController@show');
     Route::post('users/update', 'UsersController@update');
     Route::get('/', 'UsersController@profile');
 
     Route::get('awards/hepsi/{userid}', 'AwardsController@hepsi');
-    Route::get('awards/show/{courseid}/{userid}', 'AwardsController@show');
     Route::get('awards/multi/{courseid}', 'AwardsController@multi');
 
 });
 // ///////////
 
-Route::get('check', 'AwardsController@check');
+Route::post('check', 'AwardsController@check');
+Route::get('awards/show/{courseid}/{userid}', ['as' => 'awards.show', 'uses' => 'AwardsController@show']);
 
 Route::get('fabric', 'WelcomeController@index');
 

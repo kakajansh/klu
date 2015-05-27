@@ -20,9 +20,13 @@ class AwardsController extends Controller {
         return view('awards/index');
     }
 
-    public function check()
+    public function check(Request $request)
     {
-        return view('app/check');
+        $checkno = $request->input('checkno');
+        $award = Award::where(['checkno' => $checkno])->first();
+        return redirect()->route('awards.show', ['courseid' => $award->course->slug, 'userid' => $award->user->ogrno]);
+        // return redirect('/awards/show/bilge-adam-microsoft/893');
+        // return view('app/check');
     }
 
     public function show($courseid, $userid)

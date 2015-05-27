@@ -112,6 +112,7 @@ class TemplatesController extends Controller {
             $input = Request::all();
             $template->title = $input['title'];
             $template->body = $input['body'];
+            $template->settings = json_encode($template->isettings);
             $template->save();
             // $last = \Response::json(array('success' => true, 'last_insert_id' => $template->id), 200);
             return Redirect::to("templates/setup/$template->id");
@@ -125,6 +126,8 @@ class TemplatesController extends Controller {
     public function setup($id)
     {
         $template = Template::find($id);
+        $neme = json_decode($template->settings);
+        array_set($template, 'settings', $neme);
         return view('templates.setup', compact('template'));
     }
 
@@ -179,7 +182,8 @@ class TemplatesController extends Controller {
      */
     public function destroy($id)
     {
-        //
+        Template::destroy($id);
+        return redirect('templates');
     }
 
 }

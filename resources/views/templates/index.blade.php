@@ -17,15 +17,20 @@
                 <img href="{{ url('/templates', $template->id) }}" src="{{ $template->thumb }}" width="100%">
             </a>
             <div class="ui icon buttons">
-                <div class="ui button">
+                <a href="{{ url('templates', $template->id) }}" class="ui button">
                     <i class="unhide icon"></i>
-                </div>
+                </a>
                 <a href="{{ url('/templates/setup', $template->id) }}" class="ui button">
                     <i class="edit icon"></i>
                 </a>
-                <div class="ui button">
+                {!! Form::open(['method'=>'DELETE', 'style'=>'display:inline', 'action'=>['TemplatesController@destroy', $template->id]]) !!}
+                <button type="submit" class="ui button" onclick="if(!confirm('Son kararin?')){return false;};">
+                    <i class="trash outline red icon"></i>
+                </button>
+                {!! Form::close() !!}
+{{--                 <div class="ui button">
                     <i class="remove icon"></i>
-                </div>
+                </div> --}}
             </div>
         </div>
         <div class="content" align="center">

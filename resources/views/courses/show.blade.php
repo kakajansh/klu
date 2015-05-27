@@ -15,12 +15,17 @@
 <a href="{{ action('AwardsController@multi', $course->id) }}" class="ui button">
     <i class="file pdf outline icon"></i>Belge bastir
 </a>
-<a href="{{ action('AwardsController@multi', $course->id) }}" class="ui button">
+<a href="{{ action('CoursesController@edit', $course->id) }}" class="ui button">
     <i class="save icon"></i>Update
 </a>
-<a href="{{ action('AwardsController@multi', $course->id) }}" class="ui red button">
+{!! Form::open(['method'=>'DELETE', 'action'=>['CoursesController@destroy', $course->id]]) !!}
+<button type="submit" class="ui red button" onclick="if(!confirm('Son kararin?')){return false;};">
     <i class="trash outline icon"></i>Remove
-</a>
+</button>
+{!! Form::close() !!}
+{{-- <a href="{{ action('AwardsController@multi', $course->id) }}" class="ui red button">
+    <i class="trash outline icon"></i>Remove
+</a> --}}
 </div>
 
 <div class="ui divider"></div>

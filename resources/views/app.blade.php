@@ -50,7 +50,7 @@
 @if ($user && $user->hasRole('admin'))
 <script src="{{ asset('jquery.min.js') }}"></script>
 <script src="{{ asset('semantic/dist/semantic.js') }}"></script>
-<script src="{{ asset('fabric/dist/fabric.js') }}"></script>
+<script src="{{ asset('fabric/dist/fabric.min.js') }}"></script>
 @yield('scripts')
 @endif
 

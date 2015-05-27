@@ -1,5 +1,17 @@
 @extends('app')
 
+@section('submenu')
+    @if (Auth::user()->hasRole('admin') && $user->id != Auth::user()->id)
+        {!! Form::open(['method'=>'DELETE', 'action'=>['UsersController@destroy', $user->id]]) !!}
+
+        {!! Form::submit('Kullaniciyi kaldir', [
+            'class' => 'ui fluid red button',
+            'onclick' => "if(!confirm('Son kararin?')){return false;};" ]) !!}
+
+        {!! Form::close() !!}
+    @endif
+@stop
+
 @section('content')
     <h1 class="ui center aligned icon header">
         <i class="circular user icon"></i>

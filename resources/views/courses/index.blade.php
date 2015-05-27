@@ -9,6 +9,7 @@
 
 @section('content')
 
+@if (count($courses) > 0)
     <div class="ui selection list">
     @foreach($courses as $course)
         <? $sayi =  $course->users->count(); ?>
@@ -30,5 +31,7 @@
         </a>
     @endforeach
     </div>
-
+@else
+    <div class="ui red center aligned header" style="margin: 30px">No Course Found</div>
+@endif
 @stop

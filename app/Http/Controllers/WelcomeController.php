@@ -6,11 +6,6 @@ use \TCPDF;
 
 class WelcomeController extends Controller {
 
-    public function __construct()
-    {
-        $this->loadAndAuthorizeResource();
-    }
-
 	/*
 	|--------------------------------------------------------------------------
 	| Welcome Controller
@@ -30,6 +25,7 @@ class WelcomeController extends Controller {
 	public function __construct()
 	{
 		$this->middleware('guest');
+        $this->loadAndAuthorizeResource();
 	}
 
 	/**

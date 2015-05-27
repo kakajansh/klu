@@ -8,12 +8,15 @@ use App\Course;
 use App\Award;
 use App\User;
 use \Excel;
+use App\Http\Requests\CourseRequest;
 
 use Input;
 use Validator;
 use Redirect;
 use Request;
 use Session;
+
+use RandomLib\Factory;
 
 class CoursesController extends Controller {
 
@@ -30,9 +33,7 @@ class CoursesController extends Controller {
 	public function index()
 	{
 		$courses = Course::all();
-		// $sayi = Course->users;
-		// echo $sayi;
-		return view('courses.index', compact('courses'));
+		return view('courses.index', compact('courses', 'sayi'));
 	}
 
 	/**
@@ -51,70 +52,54 @@ class CoursesController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(CourseRequest $request)
 	{
-		$input = Request::all();
-		$input['template_id'] = \App\Template::find(7)->id;
+		$input = $request->all();
+		$input['template_id'] = (int)$request->input('template_id');
 		Course::create($input);
 		return redirect('courses');
 	}
 
-	public function storeUsers()
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function edit($id)
 	{
-		$file = array('file' => Input::file('file'));
-		$courseid = Request::input('courseid');
+		$course = Course::findOrFail($id);
+		$templates = \DB::table('templates')->orderBy('title', 'asc')->lists('title','id');
 
-		// echo $courseid;
-		$rules = array('file' => 'required');
-		$validator = Validator::make($file, $rules);
-
-		if ($validator->fails()) {
-		    return Redirect::to('courses')->withInput()->withErrors($validator);
-	    }
-	    else {
-			if (Input::file('file')->isValid()) {
-				$destinationPath = 'uploads'; // upload path
-				$extension = Input::file('file')->getClientOriginalExtension(); // getting file extension
-				$fileName = rand(11111,99999).'.'.$extension; // renameing file
-				Input::file('file')->move($destinationPath, $fileName); // uploading file to given path
-				// sending back with message
-				Session::flash('success', 'Upload successfully');
-				$file = $destinationPath . '/' . $fileName;
-
-				Excel::load($file, function($reader) {
-					// Excel dosyasinin her satiri
-					$reader->each(function($sheet) {
-						$usr = User::where('ogrno', $sheet->no)->first();
-
-						// Boyle bir kullanici yoksa ekle, yoksa gec
-						if (is_null($usr)) {
-							$user = User::firstOrCreate([
-								'ad' => $sheet->ad,
-								'soyad' => $sheet->soyad,
-								'ogrno' => $sheet->no,
-								'email' => $sheet->email,
-								'password' => \Hash::make($sheet->tc)
-							]);
-							$usr = $user;
-						}
-
-						$courseId = Request::input('courseid');
-
-						// Kullanici bu kursa kayitli degilse
-						if (! \DB::select('select * from course_user where user_id='.$usr->id.' and course_id='.$courseId)) {
-							$usr->courses()->attach($courseId);
-						}
-					});
-				});
-				return Redirect::to('courses');
-			}
-			else {
-				// sending back with error message.
-				Session::flash('error', 'uploaded file is not valid');
-				return Redirect::to('courses');
-			}
-		}
+		return view('courses.edit', compact('course', 'templates'));
 	}
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function update($id, CourseRequest $request)
+	{
+		$course = Course::findOrFail($id);
+
+		$course->update($request->all());
+
+		return redirect('courses');
+	}
+
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+    public function destroy($id)
+    {
+        Course::destroy($id);
+        return redirect('courses');
+    }
 
 	public function upload($id)
 	{
@@ -133,22 +118,10 @@ class CoursesController extends Controller {
 		return view('courses.show', compact('course'));
 	}
 
+	// BU FONKSYON KULLANILMIYOR
 	public function attend($id)
 	{
 		$user = \Auth::user()->id;
-		// $a = Award::find(array('course_id' => $id, 'user_id' => $user));
-
-		// if ($a === null)
-		// {
-		// 	$award = new Award();
-		// 	$award->course_id = $id;
-		// 	$award->user_id = $user;
-		// 	$award->save();
-		// }
-		// else
-		// {
-		// 	echo "ALREADY HAVE ONE";
-		// }
 
 		$award = Award::firstOrCreate(['course_id' => $id, 'user_id' => $user]);
 
@@ -156,37 +129,62 @@ class CoursesController extends Controller {
 		return redirect("/courses/$course->slug");
 	}
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
+	public function storeUsers()
 	{
-		//
-	}
+		$factory = new Factory;
+		$file = array('file' => Input::file('file'));
+		$rules = array('file' => 'required');
+		$validator = Validator::make($file, $rules);
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
+		if ($validator->fails()) {
+		    return Redirect::to('courses')->withInput()->withErrors($validator);
+	    }
+	    else {
+			if (Input::file('file')->isValid()) {
+				$destinationPath = 'uploads'; // upload path
+				$extension = Input::file('file')->getClientOriginalExtension(); // getting file extension
+				$fileName = rand(11111,99999).'.'.$extension; // renameing file
+				Input::file('file')->move($destinationPath, $fileName); // uploading file to given path
+				// sending back with message
+				Session::flash('success', 'Upload successfully');
+				$file = $destinationPath . '/' . $fileName;
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
+				$reader = Excel::load($file)->get();
+
+				foreach ($reader as $sheet) {
+					// Excel dosyasinin her satiri
+					// $reader->each(function($sheet) {
+						$usr = User::where('ogrno', $sheet->no)->first();
+
+						// Boyle bir kullanici yoksa ekle, yoksa gec
+						if (is_null($usr)) {
+							$user = User::firstOrCreate([
+								'ad' => $sheet->ad,
+								'soyad' => $sheet->soyad,
+								'ogrno' => $sheet->no,
+								'email' => $sheet->email,
+								'password' => \Hash::make($sheet->tc)
+							]);
+							$usr = $user;
+						}
+
+						$courseId = Request::input('courseid');
+						$generator = $factory->getLowStrengthGenerator();
+
+						// Kullanici bu kursa kayitli degilse
+						if (! \DB::select('select * from course_user where user_id='.$usr->id.' and course_id='.$courseId)) {
+							$usr->courses()->attach($courseId, array('checkno' => $generator->generateString(11, '123456789')));
+						}
+					// });
+				}
+				return Redirect::to('courses');
+			}
+			else {
+				// sending back with error message.
+				Session::flash('error', 'uploaded file is not valid');
+				return Redirect::to('courses');
+			}
+		}
 	}
 
 }

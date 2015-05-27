@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 
 use App\Http\Requests\UpdateUserRequest;
 
+use \App\User;
+
 class UsersController extends Controller {
 
     public function __construct()
@@ -16,13 +18,13 @@ class UsersController extends Controller {
 
     public function index()
     {
-        $users = \App\User::all();
+        $users = User::all();
         return view('users.index', compact('users'));
     }
 
     public function show($id)
     {
-        $user = \App\User::find($id);
+        $user = User::find($id);
         return view('users.show', compact('user'));
     }
 
@@ -49,4 +51,9 @@ class UsersController extends Controller {
         return view('users.show', compact('user'));
     }
 
+    public function destroy($id)
+    {
+        User::destroy($id);
+        return redirect('users');
+    }
 }

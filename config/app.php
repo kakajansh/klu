@@ -202,6 +202,7 @@ return [
 		'Excel'     => 'Maatwebsite\Excel\Facades\Excel',
 		'Params'    => 'Efficiently\AuthorityController\Facades\Params',
 		'Authority' => 'Efficiently\AuthorityController\Facades\Authority',
+		// 'Helper'	=> 'App\Helpers\Helper'
 		// 'Fpdf'      => 'Anouar\Fpdf\Fpdf',
 		// 'Fpdi' 		=> 'fpdi\FPDI',
 	],

@@ -8,6 +8,6 @@
 
     <p>Courses using this template</p>
     @foreach ($template->courses as $course)
-    <a href="{{ url('courses', $course->id) }}">{{ $course->title }}</a>
+    <a href="{{ url('courses', $course->slug) }}">{{ $course->title }}</a>
     @endforeach
 @stop
