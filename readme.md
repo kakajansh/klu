@@ -1,5 +1,7 @@
 ### KLU Certificate Manager App
 
+--
+
 ![prev](public/prev.png)
 
 Veritabanından öğrenci bilgisini çekerek otomatik sertifika oluşturma proğramı. Bunun için 3 kolay adımı takip ediyoruz:
@@ -127,7 +129,6 @@ public function boot()
 [![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
 [![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
 
-
-----------
+--
 
 [Laravel](http://laravel.com/) • [Laracasts](http://laracasts.com/) • [Kakajan SH](http://mervasdayi.tumblr.com/) • [Sayawan © 2015](http://sayawan.com/)
