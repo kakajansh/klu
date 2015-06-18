@@ -1,6 +1,23 @@
 ### KLU Certificate Manager App
 
+* __Genel bakış__
 * Kullanıcı giriş sayfası
+* Sertifikalar
+* Kurslar
+* Öğrenciler
+* Kullanıcı profil
+* Sertifika doğrulama
+
+* __Eklentiler__
+* [tecnick.com/tcpdf] - PHP ile PDF oluşturma düzenleme - 
+* [setasign/fpdi] - Var olan PDF dosyasını açma değiştirme - 
+* [maatwebsite/excel] - Excel dosyasını içe aktarma - 
+* [efficiently/authority-controller] - Kullanıcı yetki kontrolü -
+* [ircmaxell/random-lib] - Random sayı oluşturma - 
+
+* [Demo](http://certificate.byethost5.com)
+    * __Admin için:__ _admin:foobar_
+    * __Normal kullanıcı için__ _321:111_
 
 
 #### Kullanıcı giriş sayfası

@@ -30,7 +30,7 @@ Route::group(['middleware' => 'auth'], function()
     Route::get('courses/edit/{id}', 'CoursesController@edit');
     Route::patch('courses/update/{id}', 'CoursesController@update');
     Route::get('courses/{slug}', 'CoursesController@show');
-    Route::get('courses/attend/{id}', 'CoursesController@attend');
+    // Route::get('courses/attend/{id}', 'CoursesController@attend'); GEREK VARMI ????
     Route::get('courses/upload/{id}', 'CoursesController@upload');
     Route::post('courses/storeUsers', 'CoursesController@storeUsers');
 

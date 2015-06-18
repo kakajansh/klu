@@ -13,7 +13,8 @@
 
 <div class="ui main header"></div>
 <div class="ui icon center aligned submain header">
-    <i class="circular bug inverted red icon"></i>KLUCER
+    {{-- <i class="circular bug inverted red icon"></i>KLUCER --}}
+    <img src="/img/logo.png" style="width:80px"><br>KLUCER
     <div class="sub header">KLU Certificate Manager</div>
 </div>
 <div class="ui page grid">
