@@ -1,12 +1,6 @@
 ### KLU Certificate Manager App
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/downloads.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
-
-##### Genel bakış
+#### Genel bakış
 
 * Kullanıcı giriş sayfası
 * Sertifikalar
@@ -15,13 +9,21 @@
 * Kullanıcı profil
 * Sertifika doğrulama
 
-##### Eklentiler
+#### Eklentiler
 
-| Adi | Aciklama |
-|--------------------|-----------------------|
-| tecnik             | PHP ile PDF oluşturma düzenleme |
-| fdpi               | Var olan PDF dosyasını açma değiştirme |
+| Adi                              | Website               | Aciklama                               |
+|:---------------------------------|:----------------------|:---------------------------------------|
+| tecnick.com/tcpdf                | [TCPDF]               | PHP ile PDF oluşturma düzenleme        |
+| setasign/fpdi                    | [FDPI]                | Var olan PDF dosyasını açma değiştirme |
+| maatwebsite/excel                | [Laravel Excel]       | Excel dosyasını içe aktarma            |
+| efficiently/authority-controller | [AuthorityController] | Kullanıcı yetki kontrolü               |
+| ircmaxell/random-lib             | [RandomLib]           | Random sayı oluşturma                  |
 
+[TCPDF]: http://www.tcpdf.org/
+[FDPI]: http://www.setasign.com/products/fpdi/about/
+[Laravel Excel]: http://www.maatwebsite.nl/laravel-excel/docs
+[AuthorityController]: https://github.com/efficiently/authority-controller
+[RandomLib]: https://github.com/ircmaxell/RandomLib
 
 * [tecnick.com/tcpdf] - PHP ile PDF oluşturma düzenleme - 
 * [setasign/fpdi] - Var olan PDF dosyasını açma değiştirme - 
@@ -73,3 +75,9 @@ public function boot()
     <h1>{ $course->title }</h1>
 @endforeach
 ```
+
+[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
+[![Total Downloads](https://poser.pugx.org/laravel/framework/downloads.svg)](https://packagist.org/packages/laravel/framework)
+[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
+[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
+[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
