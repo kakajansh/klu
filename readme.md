@@ -6,14 +6,20 @@ Veritabanından öğrenci bilgisini çekerek otomatik sertifika oluşturma proğ
 
 1. Herhangi bir PDF oluşturma programı ile PDF şablonu oluşturuyoruz ve siteye yüklüyoruz
 2. Sitede bulunan araç ile alanları belirliyoruz
-3. Oluşturduğumuz kursla ilişkilendiriyoruz  
+3. Oluşturduğumuz kursla ilişkilendiriyoruz
 
+--- 
 
-* [Demo sürümü](http://certificate.byethost5.com) __Admin:__ _admin:foobar_ __Öğrenci:__ _321:111_
+#### Demo sürümü
+
 * [Youtube](https://www.youtube.com/watch?v=Z7se1D1R0s4)
+* [Website](http://certificate.byethost5.com) 
+    * __Admin:__ _admin:foobar_ 
+    * __Öğrenci:__ _321:111_
 
 #### Genel bakış
 
+* Başlanğıç ayarları
 * Kullanıcı giriş sayfası
 * Sertifikalar
 * Kurslar
@@ -23,6 +29,7 @@ Veritabanından öğrenci bilgisini çekerek otomatik sertifika oluşturma proğ
 
 #### Veritaban Yapısı
 
+![veritaban](public/veritaban.png)
 
 #### Eklentiler
 
@@ -43,22 +50,45 @@ Veritabanından öğrenci bilgisini çekerek otomatik sertifika oluşturma proğ
 
 #### GENEL BAKIŞ
 
-Sertifika proğramı, 
+Sertifika proğramında kullandığımız ana terminler:
+
+* __Award:__ Bu kurs ile kullanıcı arasında ilişki kurmayı sağlayan yardımcı olarak kullanılır. Veritabanında _course_user_ olarak kaydedilmiştir. Bir kullanıcın aldığı sertifikaları bunun yardımıyla sorgulayabiliriz.
+
+* __Course:__ Kurslardır, proğramımızda herşey kursların etrafında döner. Kurs hakkında bilgilerin tutulduğu yer, veritabanında _courses_. Ayrıca Kurs-Şablon, Kurs-Kullanıcı ilişkileri burda belirlenir.
+
+* __Template:__ Bu oluşturmuş olduğumuz hazır PDF şablon bilgilerinin tutulduğu yer. Veritabanında: _templates_
+
+* __User:__ Kullanıcı bilgileri. Veritabanında: _users_
+
+#### BAŞLANGIÇ AYARLAR
+
+Program dosyaları sunucuya atıldıktan sonra ilk önce PHPMYADMIN panelini kullanarak `veritabani.sql` dosyası içe aktarılır veya Laravelin sunmuş olduğu `php artisan migrate` ve sonrasında `php artisan db:seed` komutları ile veritabanında tablolar oluşturulur ve başlangıç bilgiler girilir. Sonrasında `.env` dosyasında bulunan değerler, kendi çevremize göre değiştirilir. 
+
+```ShellSession
+DB_HOST=localhost:8889
+DB_DATABASE=awards
+DB_USERNAME=root
+DB_PASSWORD=root
+```
+
+Bağlanamadığımız takdirde ve hatanın neden kaynaklandığını bilmiyorsak, aynı dosyada `APP_ENV=production` satırı `APP_ENV=local` olarak değiştirip hatayı daha detaylı bir şekilde görebiliriz.
+
+Bunun dışında ekstra ayarlar: `config/app.php` ve `config/database.php` dosyalarında bulunabilir.
 
 #### Kullanıcı giriş sayfası
 
-* __CSS:__ `/app/public/css/login.css`
-* __TEMPLATE:__ 
-    * Ana: `/app/resources/views/login.blade.php`
-        * Kimlik doğrulama: `/app/resources/views/partials/dogrulama.blade.php`
-        * Son kurslar: `/app/resources/views/partials/sonkurslar.blade.php`
-    * Giriş: `/app/resources/views/auth/login.blade.php`
-    * Üye olma: `/app/resources/views/auth/register.blade.php`
-    * Şifre sıfırlama: `/app/resources/views/auth/reset.blade.php`
-    * Şifremi unuttum: `/app/resources/views/auth/password.blade.php`
-* __CONTROLLER:__ Kullanıcı yönetimi Laravel ile beraber gelmekte, biz sadece bazı değişiklikler yapıyoruz. Mesela, email girişi yerine öğrenci numarayla giriş yapmak gibi.
-    * `/app/Http/Controller/Auth/AuthController.php`
-    * `/app/Http/Controller/Auth/PasswordController.php`
+__TEMPLATE:__ 
+* Ana: `/app/resources/views/login.blade.php`
+    * Kimlik doğrulama: `/app/resources/views/partials/dogrulama.blade.php`
+    * Son kurslar: `/app/resources/views/partials/sonkurslar.blade.php`
+* Giriş: `/app/resources/views/auth/login.blade.php`
+* Üye olma: `/app/resources/views/auth/register.blade.php`
+* Şifre sıfırlama: `/app/resources/views/auth/reset.blade.php`
+* Şifremi unuttum: `/app/resources/views/auth/password.blade.php`
+
+__CONTROLLER:__ Kullanıcı yönetimi Laravel ile beraber gelmekte, biz sadece bazı değişiklikler yapıyoruz. Mesela, email girişi yerine öğrenci numarayla giriş yapmak gibi.
+* `/app/Http/Controller/Auth/AuthController.php`
+* `/app/Http/Controller/Auth/PasswordController.php`
 
 ##### Son görüntülenen kursları değiştirmek
 
