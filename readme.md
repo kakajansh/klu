@@ -24,6 +24,8 @@ Veritabanından öğrenci bilgisini çekerek otomatik sertifika oluşturma proğ
 * Başlanğıç ayarları
 * Kullanıcı giriş sayfası
     * Son görüntülenen kursları değiştirmek 
+    * Öğrenci numarası ile giriş
+    * Başarılı girişte yönlendirme
 * Sertifikalar
 * Kurslar
 * Öğrenciler
@@ -85,14 +87,15 @@ Bunun dışında ekstra ayarlar: `config/app.php` ve `config/database.php` dosya
 
 #### Kullanıcı giriş sayfası
 
-__TEMPLATE:__ 
-* Ana: `/app/resources/views/login.blade.php`
-    * Kimlik doğrulama: `/app/resources/views/partials/dogrulama.blade.php`
-    * Son kurslar: `/app/resources/views/partials/sonkurslar.blade.php`
-* Giriş: `/app/resources/views/auth/login.blade.php`
-* Üye olma: `/app/resources/views/auth/register.blade.php`
-* Şifre sıfırlama: `/app/resources/views/auth/reset.blade.php`
-* Şifremi unuttum: `/app/resources/views/auth/password.blade.php`
+__TEMPLATE:__ HTML dosyaları diyebileceğimiz, __MVC__ deki __V__ görünüm ayarları dosyalarının saklandığı yer `/app/resources/views/`. Giriş sayfasına ait görüntüleri değiştirmek için
+
+* Ana: `login.blade.php`
+    * Kimlik doğrulama: `/partials/dogrulama.blade.php`
+    * Son kurslar: `/partials/sonkurslar.blade.php`
+* Giriş: `/auth/login.blade.php`
+* Üye olma: `/auth/register.blade.php`
+* Şifre sıfırlama: `/auth/reset.blade.php`
+* Şifremi unuttum: `/auth/password.blade.php`
 
 __CONTROLLER:__ Kullanıcı yönetimi Laravel ile beraber gelmekte, biz sadece bazı değişiklikler yapıyoruz. Mesela, email girişi yerine öğrenci numarayla giriş yapmak gibi.
 * `/app/Http/Controller/Auth/AuthController.php`
@@ -122,6 +125,126 @@ public function boot()
     <h1>{ $course->title }</h1>
 @endforeach
 ```
+
+##### Öğrenci numarası ile giriş
+
+Giriş yapmak için email yerine ögrenci numarası ile giriş yapmamızı sağlayan fonksiyon `/app/Http/Controllers/Auth/AuthController.php`
+
+```php
+public function postLogin(Request $request)
+{
+    $this->validate($request, [
+        'ogrno' => 'required', 'password' => 'required',
+    ]);
+    ...
+}
+```
+
+##### Başarılı girişte yönlendirme
+
+Başarılı giriş yapıldığında istediğimiz sayfaya yönlendirme için `/app/Http/Controllers/Auth/AuthController.php` dosyasındaki `protected $redirectTo = 'istediğimiz_url';` değiştirilir. Çıkış yapıldığında ise tam altında bulunan `protected $redirectAfterLogout = 'istediğimiz_url';`
+
+_____
+
+#### EKLENTİLER 
+
+#### TCPDF
+
+__TCPDF__ eklentisi PDF oluşturma için kullanına en geniş ve çok amaçlı bir kütüphanedir. Bunun sayesinde PDF dosyamıza sade yazı, resim değilde barcode-qrcode gibi birçok şey daha ekleyebiliriz. Sitesinde yapılabileceğimiz eylemler genişçe örnekleri ile verilmiştir: http://www.tcpdf.org/examples.php. Qrcode oluşturma örneğine bakalım:
+
+```php
+// set style for qrcode
+$style = array(
+    'border' => true,
+    'vpadding' => 'auto',
+    'hpadding' => 'auto',
+    'fgcolor' => array(0,0,0),
+    'bgcolor' => false, //array(255,255,255)
+    'module_width' => 1, // width of a single module in points
+    'module_height' => 1 // height of a single module in points
+);
+
+// QR CODE
+$pdf->write2DBarcode('www.tcpdf.org', 'QRCODE,Q', 20, 155, 30, 30, $style, 'N');
+```
+
+#### FPDI
+
+__FPDI__ eklentisi önceden oluşturduğumuz PDF şablonlarını açıp, üstünde değişiklikler yapmamızı sağlamaktadır. Normalde bu eklenti [FPDF](http://www.fpdf.org/) geliştiricileri tarafından geliştirilmiştir, ama bizim kullanacağımız TCPDF ile de [bu köprünün](https://github.com/tecnickcom/TCPDF) yardımıyla sorunsuz çalıştırılabilmektedir. Burda bu eklentinin yardımı ile __A4__ boyutunda, __mm__ ile ölçünen, __Landscape__ (yatay) bir sayfa oluşturulur 
+
+```php
+$pdf = new \FPDI("L", "mm", "A4");
+$pdf->SetPrintHeader(false);
+$pdf->SetPrintFooter(false);
+$pdf->AddPage();
+```
+
+ve aşağıdaki fonksiyon ile açmak istediğimiz dosya belirlenir.
+
+```php
+$pagecount = $pdf->setSourceFile('template.pdf');
+
+$tpl = $pdf->importPage(1);
+
+$pdf->useTemplate($tpl);
+```
+
+#### Laravel Excel
+
+__Laravel Excel__ eklentisini Excel dosyaları içe aktarmamız için kullanırız. Diyelim ki, kullanıcıları önceden Excel dosyasında kaydettik, bunu
+
+```php
+$reader = Excel::load('/kullanicilar.xlsx')->get();
+
+foreach ($reader as $sheet) {
+    // Excell dosyasında her satır için yapılacak işlem
+}
+```
+
+fonksiyonu ile okutabiliriz. Excel dosyasının ilk satırı sütün ismi olarak kullanılır ve o sütüne ait bilgiler `$sheet->ad` ile kullanıcın adına erişilir. Sonra `foreach` döngüsü içinde kullanıcı önceden kayıtlı olup olmadığı kontrol ettikten sonra 
+
+```php
+if (! \DB::select('select * from course_user where user_id='.$usr->id.' and course_id='.$courseId)) {
+    $usr->courses()->attach($courseId, array('checkno' => $generator->generateString(11, '123456789')));
+}
+```
+
+fonksiyonu ile Kurs-Kullanıcı ilişkisi kurulur. Burda `$generator->generateString(11, '123456789')` ile birden dokuza kadar olan sayılardan 11 haneli bir rastgele sayı oluşturulur.
+
+#### AuthorityController
+
+__AuthorityController__ eklentisini kullanıcı yetki kontrolü için kullanırız. Bir kullanıcın yetkisine göre hangi fonksiyonu çalıştırabileceğine, hangi sayfayı ziyaret edebileceğine yetki belirleme amaçlıdır. `/config/authority-contoller.php` dosyasını açtığımızda:
+
+```php
+$user = Auth::guest() ? new App\User : $authority->getCurrentUser();
+if ($user->hasRole('admin')) {
+    $authority->allow('manage', 'all');
+} else {
+    $authority->allow(['show', 'hepsi', 'check'], 'App\Award');
+    $authority->allow(['profile', 'edit', 'update'], 'App\User');
+}
+```
+
+Eğer kullanıcı __admin__ ise tüm yetkileri tanı, değilse sadece __Award__ klasına ait _show, hepsi, check_ ve __User__ klasına ait _profile, edit, update_ fonksiyonlarına izin verir. Template dosyalarımız içinde de sıkça rastladığımız `\Auth::user()->hasRole('admin')` komutu giriş yapan kullanıcın __admin__ yetkisi olup olmadığını kontrol etmektedir.
+
+Veritabanında _roles_ yetkileri, _role_user_ hangi yetkinin hangi kullanıcıya verileceğini, _permissions_ izinleri belirler. Mesela, _roles_ tablosunda _editor_ adlı yetki oluşturup, belirli kullanıcılara sadece editlemeyi izin verebiliriz. 
+
+#### RandomLib
+
+__RandomLib__ eklentisini PHPnin varsayılan `random` fonksiyonu yerine kolayca rasgele sayı oluşturabilmemiz için kullanıyoruz. Eklentiyi programımıza dahil ettikten sonra:
+
+```php
+$factory = new RandomLib\Factory;
+$generator = $factory->getMediumStrengthGenerator();
+```
+
+ile rasgele sayının hangi zorlukta oluşturulacağına dair algoritmasını belirliyoruz. Sonrasında
+
+```php
+$generator->generateString(32, 'abcdef')
+```
+
+yaptığımızda _adaeabecfbddcdaeedaedfbbcdccccfe_ gibi _abcdef_ harflerinden oluşan 32 haneli kelime elde ediyoruz.
 
 [![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
 [![Total Downloads](https://poser.pugx.org/laravel/framework/downloads.svg)](https://packagist.org/packages/laravel/framework)
