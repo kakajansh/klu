@@ -6,7 +6,8 @@
 [![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
 [![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
 
-* __Genel bakış__
+##### Genel bakış
+
 * Kullanıcı giriş sayfası
 * Sertifikalar
 * Kurslar
@@ -14,7 +15,14 @@
 * Kullanıcı profil
 * Sertifika doğrulama
 
-* __Eklentiler__
+##### Eklentiler
+
+| Adi | Aciklama |
+|--------------------|-----------------------|
+| tecnik             | PHP ile PDF oluşturma düzenleme |
+| fdpi               | Var olan PDF dosyasını açma değiştirme |
+
+
 * [tecnick.com/tcpdf] - PHP ile PDF oluşturma düzenleme - 
 * [setasign/fpdi] - Var olan PDF dosyasını açma değiştirme - 
 * [maatwebsite/excel] - Excel dosyasını içe aktarma - 
