@@ -21,6 +21,7 @@ Veritabanından öğrenci bilgisini çekerek otomatik sertifika oluşturma proğ
 
 * Başlanğıç ayarları
 * Kullanıcı giriş sayfası
+    * Son görüntülenen kursları değiştirmek 
 * Sertifikalar
 * Kurslar
 * Öğrenciler
@@ -47,6 +48,7 @@ Veritabanından öğrenci bilgisini çekerek otomatik sertifika oluşturma proğ
 [AuthorityController]: https://github.com/efficiently/authority-controller
 [RandomLib]: https://github.com/ircmaxell/RandomLib
 
+-----
 
 #### GENEL BAKIŞ
 
@@ -59,6 +61,8 @@ Sertifika proğramında kullandığımız ana terminler:
 * __Template:__ Bu oluşturmuş olduğumuz hazır PDF şablon bilgilerinin tutulduğu yer. Veritabanında: _templates_
 
 * __User:__ Kullanıcı bilgileri. Veritabanında: _users_
+
+-----
 
 #### BAŞLANGIÇ AYARLAR
 
@@ -74,6 +78,8 @@ DB_PASSWORD=root
 Bağlanamadığımız takdirde ve hatanın neden kaynaklandığını bilmiyorsak, aynı dosyada `APP_ENV=production` satırı `APP_ENV=local` olarak değiştirip hatayı daha detaylı bir şekilde görebiliriz.
 
 Bunun dışında ekstra ayarlar: `config/app.php` ve `config/database.php` dosyalarında bulunabilir.
+
+--
 
 #### Kullanıcı giriş sayfası
 
@@ -120,3 +126,8 @@ public function boot()
 [![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
 [![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
 [![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+
+
+----------
+
+[Laravel](http://laravel.com/) • [Laracasts](http://laracasts.com/) • [Kakajan SH](http://mervasdayi.tumblr.com/) • [Sayawan © 2015](http://sayawan.com/)
