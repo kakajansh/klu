@@ -6,14 +6,11 @@ Veritabanından öğrenci bilgisini çekerek otomatik sertifika oluşturma proğ
 
 1. Herhangi bir PDF oluşturma programı ile PDF şablonu oluşturuyoruz ve siteye yüklüyoruz
 2. Sitede bulunan araç ile alanları belirliyoruz
-3. Oluşturduğumuz kursla ilişkilendiriyoruz
+3. Oluşturduğumuz kursla ilişkilendiriyoruz  
 
-##### Demo sürümü
 
-[Byethost](http://certificate.byethost5.com) - [Youtube](https://www.youtube.com/watch?v=Z7se1D1R0s4)
-* __Admin:__ _admin:foobar_
-* __Öğrenci:__ _321:111_
-
+* [Demo sürümü](http://certificate.byethost5.com) __Admin:__ _admin:foobar_ __Öğrenci:__ _321:111_
+* [Youtube](https://www.youtube.com/watch?v=Z7se1D1R0s4)
 
 #### Genel bakış
 
