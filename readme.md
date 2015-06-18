@@ -1,5 +1,20 @@
 ### KLU Certificate Manager App
 
+![prev](public/prev.png)
+
+Veritabanından öğrenci bilgisini çekerek otomatik sertifika oluşturma proğramı. Bunun için 3 kolay adımı takip ediyoruz:
+
+1. Herhangi bir PDF oluşturma programı ile PDF şablonu oluşturuyoruz ve siteye yüklüyoruz
+2. Sitede bulunan araç ile alanları belirliyoruz
+3. Oluşturduğumuz kursla ilişkilendiriyoruz
+
+##### Demo sürümü
+
+[Byethost](http://certificate.byethost5.com) - [Youtube](https://www.youtube.com/watch?v=Z7se1D1R0s4)
+* __Admin:__ _admin:foobar_
+* __Öğrenci:__ _321:111_
+
+
 #### Genel bakış
 
 * Kullanıcı giriş sayfası
@@ -9,9 +24,12 @@
 * Kullanıcı profil
 * Sertifika doğrulama
 
+#### Veritaban Yapısı
+
+
 #### Eklentiler
 
-| Adi                              | Website               | Aciklama                               |
+| Adı                              | Website               | Açıklama                               |
 |:---------------------------------|:----------------------|:---------------------------------------|
 | tecnick.com/tcpdf                | [TCPDF]               | PHP ile PDF oluşturma düzenleme        |
 | setasign/fpdi                    | [FDPI]                | Var olan PDF dosyasını açma değiştirme |
@@ -25,16 +43,10 @@
 [AuthorityController]: https://github.com/efficiently/authority-controller
 [RandomLib]: https://github.com/ircmaxell/RandomLib
 
-* [tecnick.com/tcpdf] - PHP ile PDF oluşturma düzenleme - 
-* [setasign/fpdi] - Var olan PDF dosyasını açma değiştirme - 
-* [maatwebsite/excel] - Excel dosyasını içe aktarma - 
-* [efficiently/authority-controller] - Kullanıcı yetki kontrolü -
-* [ircmaxell/random-lib] - Random sayı oluşturma - 
 
-* [Demo](http://certificate.byethost5.com)
-    * __Admin için:__ _admin:foobar_
-    * __Normal kullanıcı için__ _321:111_
+#### GENEL BAKIŞ
 
+Sertifika proğramı, 
 
 #### Kullanıcı giriş sayfası
 
